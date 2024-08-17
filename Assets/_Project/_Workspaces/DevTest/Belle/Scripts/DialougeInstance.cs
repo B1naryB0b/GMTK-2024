@@ -15,6 +15,7 @@ public class DialougeInstance : MonoBehaviour
     [SerializeField] private float _dialougeSpeed;
     public Animator DialougeAnimator;
     private DialougeManager _diaManager;
+    bool firstEnable = true;
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +25,20 @@ public class DialougeInstance : MonoBehaviour
 
     private void OnEnable()
     {
-        //get current items from manager
-        _charName = _diaManager.GetCurrName();
-        _sentances = _diaManager.GetCurrDialouge();
-        CharImage = _diaManager.GetCurrSprite();
-        DialougeName.text = _charName;
-        //play animation
-        DialougeAnimator.SetTrigger("Enter");
+        if (firstEnable)
+        {
+            firstEnable = false;
+        }
+        else
+        {
+            //get current items from manager
+            _charName = _diaManager.GetCurrName();
+            _sentances = _diaManager.GetCurrDialouge();
+            CharImage = _diaManager.GetCurrSprite();
+            DialougeName.text = _charName;
+            //play animation
+            DialougeAnimator.SetTrigger("Enter");
+        }
     }
 
     // Update is called once per frame
