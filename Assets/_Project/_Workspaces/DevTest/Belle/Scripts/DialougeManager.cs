@@ -68,9 +68,15 @@ public class DialougeManager : MonoBehaviour
 
     public void SpawnNewBox(string name)
     {
-        SetCurrDialouges(name);
-        //_currBox.transform.position = _dialougeStartPoint.position;
-        _dialougeBox.SetActive(true);
+        if (_dialougeBox.activeInHierarchy)
+        {
+        }
+        else
+        {
+            SetCurrDialouges(name);
+            //_currBox.transform.position = _dialougeStartPoint.position;
+            _dialougeBox.SetActive(true);
+        }
     }
     public void DestroyCurrBox()
     {
