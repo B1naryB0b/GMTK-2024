@@ -57,7 +57,7 @@ public class ScriptableStats : ScriptableObject
     [Tooltip("The amount of time we buffer a jump. This allows jump input before actually hitting the ground")]
     public float JumpBuffer = .2f;
 
-    [Header("Dash")]
+    [Header("DASH")]
     [Tooltip("How fast is the dash")]
     public float DashSpeed = 10.0f;
 
@@ -68,7 +68,21 @@ public class ScriptableStats : ScriptableObject
     public float DashCooldown = 2f;
     
     [Header("WALL JUMP")]
-    [Tooltip("")]
-    public float WallJumpSpeed = 36f;
+    [Tooltip("The immediate velocity applied when wall jumping")]
+    public float WallJumpPower = 36f;
+
+    [Tooltip("How much jump force is distributed along the horizontal axis")]
+    [Range(0f, 1f), SerializeField]
+    private float wallJumpX = 1f;
+    
+    [Tooltip("How much jump force is distributed along the vertical axis")]
+    [Range(0f, 1f), SerializeField] 
+    private float wallJumpY = 1f;
+
+    public Vector2 WallJumpDistribution => new Vector2(wallJumpX, wallJumpY);
+    
+    [Tooltip("The amount of time we buffer a wall jump. This allows jump input before actually hitting the wall")]
+    public float WallJumpBuffer = .2f;
+
 
 }
