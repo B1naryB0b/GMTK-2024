@@ -57,8 +57,13 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private Vector2 _dashDirection;
     private bool CanUseDash => _dashUsable &&_time < _timeDashPressed + _stats.DashTime;
 
-    private bool _canWallJump;
+
+    private bool _bufferedWallJumpUsable;
+    private bool HasBufferedWallJump => _bufferedWallJumpUsable && _time < _timeJumpWasPressed + _stats.WallJumpBuffer;
+    private bool CanWallJump => _wallHit && !_grounded && HasBufferedWallJump;
     private bool _wallHit;
+    private Vector2 _wallNormal;
+    
     
     
     // Start is called before the first frame update
@@ -137,8 +142,11 @@ public class PlayerController : MonoBehaviour, IPlayerController
         //ground and roof
         bool groundHit = CastInDirection(Vector2.down);
         bool roofHit = CastInDirection(Vector2.up);
-        _wallHit = CastInDirection(Vector2.left) || CastInDirection(Vector2.right);
-        
+
+        RaycastHit2D wallHitLeft = CastInDirection(Vector2.left);
+        RaycastHit2D wallHitRight = CastInDirection(Vector2.right);
+        _wallHit = wallHitLeft.collider != null || wallHitRight.collider != null;
+
         //hit a roof
         if (roofHit)
         {
@@ -166,12 +174,15 @@ public class PlayerController : MonoBehaviour, IPlayerController
         if (_wallHit)
         {
             _frameVelocity.x = 0f;
+            _wallNormal = wallHitLeft.collider != null ? wallHitLeft.normal : wallHitRight.normal;
+            _bufferedWallJumpUsable = true;
+
         }
         
         Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
     }
 
-    private bool CastInDirection(Vector2 direction)
+    private RaycastHit2D CastInDirection(Vector2 direction)
     {
         return Physics2D.CapsuleCast(_capCol.bounds.center, _capCol.size, _capCol.direction, 0, direction, _stats.GrounderDistance, ~_stats.PlayerLayer);
     }
@@ -248,16 +259,21 @@ public class PlayerController : MonoBehaviour, IPlayerController
     //WallJump
     private void HandleWallJump()
     {
-        if (!_grounded && _wallHit)
+        if (CanWallJump)
         {
-            
+            ExecuteWallJump();
         }
     }
 
     private void ExecuteWallJump()
     {
-        
+        Vector2 jumpNormalizer = _stats.WallJumpDistribution.normalized;
+        _frameVelocity = new Vector2(_wallNormal.x * jumpNormalizer.x * _stats.WallJumpPower, jumpNormalizer.y * _stats.WallJumpPower);
+        _wallHit = false;
+        _bufferedWallJumpUsable = false;
+        Jumped?.Invoke();
     }
+
     
 
     //Gravity
