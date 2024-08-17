@@ -15,10 +15,14 @@ public interface IPlayerController
     public Vector2 FrameInput { get; }
 }
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(TrailRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(TrailRenderer))]
+[RequireComponent(typeof(InputHandler))]
 public class PlayerController : MonoBehaviour, IPlayerController
 {
     [SerializeField] private ScriptableStats _stats;
+    private InputHandler _inputHandler;
     private Rigidbody2D _rigidBod;
     private CapsuleCollider2D _capCol;
     private TrailRenderer _dashTrail;
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     // Start is called before the first frame update
     void Awake()
     {
+        _inputHandler = GetComponent<InputHandler>();
         _rigidBod = GetComponent<Rigidbody2D>();
         _capCol = GetComponent<CapsuleCollider2D>();
         _dashTrail = GetComponent<TrailRenderer>();
@@ -78,14 +83,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-
-        _frameInput = new FrameInput
-        {
-            JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
-            JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
-            DashDown = Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0),
-            Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
-        };
+        _frameInput = _inputHandler.GetFrameInput();
 
         if (_stats.SnapInput)
         {

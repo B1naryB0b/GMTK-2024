@@ -22,12 +22,12 @@ public class Follow : MonoBehaviour
     
     [Header("Position Settings")]
     [SerializeField] private bool lerpPosition = true;
-    [SerializeField] private AnimationCurve lerpPositionCurve;
+    [SerializeField] private AnimationCurve lerpPositionCurve = AnimationCurve.Constant(0f, 1f, 1f);
     [SerializeField] private float smoothFollowPositionSpeed = 1f;
     
     [Header("Rotation Settings")]
     [SerializeField] private bool lerpRotation = true;
-    [SerializeField] private AnimationCurve lerpRotationCurve;
+    [SerializeField] private AnimationCurve lerpRotationCurve = AnimationCurve.Constant(0f, 1f, 1f);
     [SerializeField] private float smoothFollowRotationSpeed = 1f;
     
     void Update()
