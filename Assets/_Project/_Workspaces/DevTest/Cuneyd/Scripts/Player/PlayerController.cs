@@ -53,10 +53,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private bool _dashUsable;
     private bool _dashToConsume;
     private float _timeDashPressed;
-    private Vector2 _mousePosition;
+    private float _dashCooldownTime;
     private Vector2 _dashDirection;
     private bool CanUseDash => _dashUsable &&_time < _timeDashPressed + _stats.DashTime;
 
+    private bool _canWallJump;
+    
+    
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -66,6 +70,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _dashTrail = GetComponent<TrailRenderer>();
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+    }
+
+    private void Start()
+    {
+        _dashTrail.emitting = false;
+
+        _rigidBod.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        _rigidBod.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
     // Update is called once per frame
@@ -78,11 +90,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void GatherInputs()
     {
-        if (!_dashing)
-        {
-            _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-
         _frameInput = _inputHandler.GetFrameInput();
 
         if (_stats.SnapInput)
@@ -114,11 +121,13 @@ public class PlayerController : MonoBehaviour, IPlayerController
         {
             HandleJump();
             HandleDirection();
+            HandleWallJump();
             HandleGravity();
         }
 
         ApplyMovement();
     }
+    
 
     //COllisions
     private void CheckCollisions()
@@ -126,9 +135,9 @@ public class PlayerController : MonoBehaviour, IPlayerController
         Physics2D.queriesStartInColliders = false;
 
         //ground and roof
-        bool groundHit = Physics2D.CapsuleCast(_capCol.bounds.center, _capCol.size, _capCol.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
-        bool roofHit = Physics2D.CapsuleCast(_capCol.bounds.center, _capCol.size, _capCol.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
-
+        bool groundHit = CastInDirection(Vector2.down);
+        bool roofHit = CastInDirection(Vector2.up);
+        
         //hit a roof
         if (roofHit)
         {
@@ -142,7 +151,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _coyoteUsable = true;
             _bufferedJumpUsable = true;
             _endedJumpEarly = false;
-            _dashUsable = true;
             GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
         }
         // Falling
@@ -153,21 +161,34 @@ public class PlayerController : MonoBehaviour, IPlayerController
             GroundedChanged?.Invoke(false, 0);
         }
 
+
+        
         Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
     }
 
+    private bool CastInDirection(Vector2 direction)
+    {
+        return Physics2D.CapsuleCast(_capCol.bounds.center, _capCol.size, _capCol.direction, 0, direction, _stats.GrounderDistance, ~_stats.PlayerLayer);
+    }
+    
     //Dashing
     private void HandleDash()
     {
+        if (_time >= _dashCooldownTime)
+        {
+            _dashUsable = true;
+        }
+        
         if (!_dashToConsume) return;
 
         if (CanUseDash)
         {
             _dashUsable = false;
             _dashing = true;
-            _dashDirection = _mousePosition - _rigidBod.position;
+            _dashDirection = _frameInput.Move.normalized;
             _frameVelocity = new Vector2(_dashDirection.x * _stats.DashSpeed, _dashDirection.y * _stats.DashSpeed);
             _dashTrail.emitting = true;
+            _dashCooldownTime = _time + _stats.DashCooldown;
         }
 
         if(_dashing)
@@ -218,6 +239,24 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
         }
     }
+    
+    //WallJump
+    private void HandleWallJump()
+    {
+        bool wallHit = CastInDirection(Vector2.left) || CastInDirection(Vector2.right);
+        
+        //hit a wall
+        if (!_grounded && wallHit)
+        {
+            
+        }
+    }
+
+    private void ExecuteWallJump()
+    {
+        
+    }
+    
 
     //Gravity
     private void HandleGravity()

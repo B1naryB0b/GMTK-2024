@@ -63,5 +63,8 @@ public class ScriptableStats : ScriptableObject
 
     [Tooltip("How Long is the Dash")]
     public float DashTime = 1f;
+    
+    [Tooltip("How long before you can dash again")]
+    public float DashCooldown = 2f;
 
 }
