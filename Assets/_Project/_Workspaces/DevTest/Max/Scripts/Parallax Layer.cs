@@ -8,7 +8,7 @@ public class ParallaxScript : MonoBehaviour
     public GameObject _camera; 
 
     /*
-        Set the strenght of the parallax effect.
+        Set the strength of the parallax effect.
         Strength < 0 for foreground layer
         Strength = 0 for middle layer
         Strength > 0 for background layer
