@@ -12,7 +12,7 @@ public class ParallaxScript : MonoBehaviour
         Strength < 0 for foreground layer
         Strength = 0 for middle layer
         Strength > 0 for background layer
-        strength = 1 for non-moving background layer (ie the sun)
+        Strength = 1 for non-moving background layer (ie the sun)
     */
     [SerializeField] private float _effectStrength;
 
