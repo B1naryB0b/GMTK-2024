@@ -53,7 +53,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private bool _dashUsable;
     private bool _dashToConsume;
     private float _timeDashPressed;
-    private Vector2 _mousePosition;
     private Vector2 _dashDirection;
     private bool CanUseDash => _dashUsable &&_time < _timeDashPressed + _stats.DashTime;
 
@@ -68,6 +67,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
     }
 
+    private void Start()
+    {
+        _dashTrail.emitting = false;
+
+        _rigidBod.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        _rigidBod.interpolation = RigidbodyInterpolation2D.Interpolate;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -78,11 +85,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void GatherInputs()
     {
-        if (!_dashing)
-        {
-            _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-
         _frameInput = _inputHandler.GetFrameInput();
 
         if (_stats.SnapInput)
@@ -165,7 +167,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         {
             _dashUsable = false;
             _dashing = true;
-            _dashDirection = _mousePosition - _rigidBod.position;
+            _dashDirection = _frameInput.Move.normalized;
             _frameVelocity = new Vector2(_dashDirection.x * _stats.DashSpeed, _dashDirection.y * _stats.DashSpeed);
             _dashTrail.emitting = true;
         }
