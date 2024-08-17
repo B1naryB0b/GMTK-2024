@@ -19,7 +19,7 @@ public class DialougeManager : MonoBehaviour
     [SerializeField] private Image _clipyDiaSprite;
     [SerializeField] private Image _sprinkleyDiaSprite;
     private string[] _currDialouge;
-    private string _currName;
+    private string _currName = "";
     private Image _currSprite;
     private GameObject _currBox;
     
@@ -27,7 +27,8 @@ public class DialougeManager : MonoBehaviour
     void Start()
     {
         LevelIndex = 0; //needs to be read each time i imagine from gamestate
-        ReadTextFiles();
+        DestroyCurrBox();
+        //ReadTextFiles();
     }
     public void SetCurrDialouges(string name)
     {
@@ -67,13 +68,19 @@ public class DialougeManager : MonoBehaviour
 
     public void SpawnNewBox(string name)
     {
-        SetCurrDialouges(name);
-        //_currBox.transform.position = _dialougeStartPoint.position;
-        _currBox.SetActive(true);
+        if (_dialougeBox.activeInHierarchy)
+        {
+        }
+        else
+        {
+            SetCurrDialouges(name);
+            //_currBox.transform.position = _dialougeStartPoint.position;
+            _dialougeBox.SetActive(true);
+        }
     }
     public void DestroyCurrBox()
     {
-        _currBox.SetActive(false);
+        _dialougeBox.SetActive(false);
     }
 
     private void ReadTextFiles()

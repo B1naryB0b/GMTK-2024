@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Droplet
+  - Npc
   layers:
   - Default
   - TransparentFX
