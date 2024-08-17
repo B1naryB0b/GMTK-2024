@@ -32,9 +32,11 @@ public class DropletController : MonoBehaviour
                 }
 
     	        GameObject droplet = transform.gameObject;
-                Debug.Log(droplet);
                 Rigidbody2D rb = droplet.GetComponent<Rigidbody2D>();
-                rb.velocity = new Vector3(xManDist * _attractionSpeed, yManDist * _attractionSpeed, 0);
+                rb.velocity = new Vector3(
+                    xManDist * (_attractionSpeed / dist) * (_attractionSpeed / dist), 
+                    yManDist * (_attractionSpeed / dist) * (_attractionSpeed / dist), 
+                    0);
             }
         }
     }
