@@ -33,10 +33,14 @@ public class DropletController : MonoBehaviour
 
     	        GameObject droplet = transform.gameObject;
                 Rigidbody2D rb = droplet.GetComponent<Rigidbody2D>();
+                Transform tf = droplet.GetComponent<Transform>();
+                droplet.GetComponent<Transform>();
                 rb.velocity = new Vector3(
                     xManDist * (_attractionSpeed / dist) * (_attractionSpeed / dist), 
                     yManDist * (_attractionSpeed / dist) * (_attractionSpeed / dist), 
                     0);
+
+                tf.Rotate(rb.velocity);
             }
         }
     }
