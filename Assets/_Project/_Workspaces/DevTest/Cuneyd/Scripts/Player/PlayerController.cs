@@ -21,6 +21,14 @@ public interface IPlayerController
 [RequireComponent(typeof(InputHandler))]
 public class PlayerController : MonoBehaviour, IPlayerController
 {
+    private enum PlayerMoveMode
+    {
+        Velocity,
+        Force
+    }
+
+    [SerializeField] private PlayerMoveMode moveMode;
+    
     [SerializeField] private ScriptableStats _stats;
     private InputHandler _inputHandler;
     private Rigidbody2D _rigidBod;
@@ -293,7 +301,18 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void ApplyMovement()
     {
-        _rigidBod.velocity = _frameVelocity;
+        switch (moveMode)
+        {
+            case PlayerMoveMode.Force:
+                _rigidBod.AddForce(_frameVelocity, ForceMode2D.Force);
+                break;
+            case PlayerMoveMode.Velocity:
+                _rigidBod.velocity = _frameVelocity;
+                break;
+            default:
+                Debug.LogError("Select a player movement mode");
+                break;
+        }
     }
 
 #if UNITY_EDITOR

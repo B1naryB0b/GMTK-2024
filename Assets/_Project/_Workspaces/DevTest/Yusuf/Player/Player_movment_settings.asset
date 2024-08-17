@@ -33,3 +33,7 @@ MonoBehaviour:
   DashSpeed: 50
   DashTime: 0.2
   DashCooldown: 1
+  WallJumpPower: 45
+  wallJumpX: 0.7
+  wallJumpY: 1
+  WallJumpBuffer: 0.1
