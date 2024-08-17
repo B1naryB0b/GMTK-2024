@@ -66,5 +66,9 @@ public class ScriptableStats : ScriptableObject
     
     [Tooltip("How long before you can dash again")]
     public float DashCooldown = 2f;
+    
+    [Header("WALL JUMP")]
+    [Tooltip("")]
+    public float WallJumpSpeed = 36f;
 
 }

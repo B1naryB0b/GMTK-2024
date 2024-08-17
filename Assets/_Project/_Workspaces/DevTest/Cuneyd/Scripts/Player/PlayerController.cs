@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private bool CanUseDash => _dashUsable &&_time < _timeDashPressed + _stats.DashTime;
 
     private bool _canWallJump;
-    
+    private bool _wallHit;
     
     
     // Start is called before the first frame update
@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         //ground and roof
         bool groundHit = CastInDirection(Vector2.down);
         bool roofHit = CastInDirection(Vector2.up);
+        _wallHit = CastInDirection(Vector2.left) || CastInDirection(Vector2.right);
         
         //hit a roof
         if (roofHit)
@@ -152,6 +153,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _bufferedJumpUsable = true;
             _endedJumpEarly = false;
             GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
+            _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
         }
         // Falling
         else if (_grounded && !groundHit)
@@ -161,7 +163,10 @@ public class PlayerController : MonoBehaviour, IPlayerController
             GroundedChanged?.Invoke(false, 0);
         }
 
-
+        if (_wallHit)
+        {
+            _frameVelocity.x = 0f;
+        }
         
         Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
     }
@@ -243,10 +248,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     //WallJump
     private void HandleWallJump()
     {
-        bool wallHit = CastInDirection(Vector2.left) || CastInDirection(Vector2.right);
-        
-        //hit a wall
-        if (!_grounded && wallHit)
+        if (!_grounded && _wallHit)
         {
             
         }
