@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 123847123}
   - component: {fileID: 123847125}
   - component: {fileID: 123847124}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: BoxBackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 517855720}
   - component: {fileID: 517855722}
   - component: {fileID: 517855721}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: CharImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 922907740}
   - component: {fileID: 922907742}
   - component: {fileID: 922907741}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: DialougeTextBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +606,7 @@ GameObject:
   - component: {fileID: 1393534563}
   - component: {fileID: 1393534562}
   - component: {fileID: 1393534561}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -837,7 +837,7 @@ GameObject:
   - component: {fileID: 1733677329}
   - component: {fileID: 1733677331}
   - component: {fileID: 1733677330}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1021,7 +1021,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1069,7 +1069,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4528302, g: 0.3780705, b: 0.3780705, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1162,6 +1162,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1939345186
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3626370037901426538, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.8416493
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0301924
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424858605230587310, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fc0543164c541fc49bdd188e17e5f023, type: 3}
 --- !u!1 &1996694072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,7 +1230,7 @@ GameObject:
   - component: {fileID: 1996694073}
   - component: {fileID: 1996694074}
   - component: {fileID: 1996694075}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: DialougeInstance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1251,3 +1308,4 @@ SceneRoots:
   - {fileID: 160905371}
   - {fileID: 1594488907}
   - {fileID: 1760410112}
+  - {fileID: 1939345186}
