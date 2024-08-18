@@ -15,20 +15,19 @@ public class DialougeManager : MonoBehaviour
     public TextAsset RakeyText;
     public TextAsset ClipyText;
     public TextAsset SprinkleyText;
-    [SerializeField] private Image _rakeyDiaSprite;
-    [SerializeField] private Image _clipyDiaSprite;
-    [SerializeField] private Image _sprinkleyDiaSprite;
+    [SerializeField] private Sprite _rakeyDiaSprite;
+    [SerializeField] private Sprite _clipyDiaSprite;
+    [SerializeField] private Sprite _sprinkleyDiaSprite;
     private string[] _currDialouge;
     private string _currName = "";
-    private Image _currSprite;
-    private GameObject _currBox;
+    [SerializeField] private Image _currSprite;
     
     // Start is called before the first frame update
     void Start()
     {
         LevelIndex = 0; //needs to be read each time i imagine from gamestate
         DestroyCurrBox();
-        //ReadTextFiles();
+        ReadTextFiles();
     }
     public void SetCurrDialouges(string name)
     {
@@ -36,17 +35,17 @@ public class DialougeManager : MonoBehaviour
         {
             case "Rakey":
                 _currName = name;
-                _currSprite = _rakeyDiaSprite;
+                _currSprite.sprite = _rakeyDiaSprite;
                 _currDialouge = _rakeyDialouge[LevelIndex];
                 break;
             case "Clipy":
                 _currName = name;
-                _currSprite = _clipyDiaSprite;
+                _currSprite.sprite = _clipyDiaSprite;
                 _currDialouge = _clipyDialouge[LevelIndex];
                 break;
             case "Sprinkley":
                 _currName = name;
-                _currSprite = _sprinkleyDiaSprite;
+                _currSprite.sprite = _sprinkleyDiaSprite;
                 _currDialouge = _sprinkleyDialouge[LevelIndex];
                 break;
         }

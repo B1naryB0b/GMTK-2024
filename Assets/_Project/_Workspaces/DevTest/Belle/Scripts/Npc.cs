@@ -2,24 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 public class Npc : MonoBehaviour
 {
     public string Name;
-    private CapsuleCollider2D triggerCol;
+    private Collider2D triggerCol;
     private DialougeManager _diaManager;
+    private InputHandler _inputHandler;
     private bool _canTalk;
     // Start is called before the first frame update
     void Start()
     {
-        triggerCol = GetComponent<CapsuleCollider2D>();
+        triggerCol = GetComponent<Collider2D>();
         _diaManager = FindObjectOfType<DialougeManager>();
+        _inputHandler = FindObjectOfType<InputHandler>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && _canTalk)
+        if (_inputHandler._inputActions.Player.Interact.WasPressedThisFrame() && _canTalk)
         {
             _diaManager.SpawnNewBox(Name);
         }
@@ -29,6 +31,7 @@ public class Npc : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            Debug.Log("i entered" + Name);
             _canTalk = true;
         }
     }

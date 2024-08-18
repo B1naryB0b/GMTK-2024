@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
-    private InputActions _inputActions;
+    [HideInInspector] public InputActions _inputActions;
     private FrameInput _frameInput;
 
     private void Awake()
