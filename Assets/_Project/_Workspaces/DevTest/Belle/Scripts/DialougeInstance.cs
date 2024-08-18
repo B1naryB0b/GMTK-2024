@@ -14,13 +14,16 @@ public class DialougeInstance : MonoBehaviour
     private int _index = 0;
     [SerializeField] private float _dialougeSpeed;
     public Animator DialougeAnimator;
-    private DialougeManager _diaManager;
-    bool firstEnable = true;
+    [SerializeField] private DialougeManager _diaManager;
+    private bool firstEnable = true;
+    private InputHandler _inputHandler;
+    private bool _finishedWrighting;
 
     // Start is called before the first frame update
     void Start()
     {
         _diaManager = FindObjectOfType<DialougeManager>();
+        _inputHandler = FindObjectOfType<InputHandler>();
     }
 
     private void OnEnable()
@@ -38,14 +41,16 @@ public class DialougeInstance : MonoBehaviour
             DialougeName.text = _charName;
             //play animation
             DialougeAnimator.SetTrigger("Enter");
+            NextSentance();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_inputHandler._inputActions.Player.Interact.WasPressedThisFrame() && _finishedWrighting == true)
         {
+            _finishedWrighting = false;
             NextSentance();
         }
     }
@@ -60,6 +65,7 @@ public class DialougeInstance : MonoBehaviour
         {
             DialougeText.text = "";
             DialougeAnimator.SetTrigger("Exit");
+            _index = 0;
             //get dialouge manager to destroy prefab this is attatched to. event thats called.
             _diaManager.DestroyCurrBox();
         }
@@ -72,6 +78,7 @@ public class DialougeInstance : MonoBehaviour
             DialougeText.text += character;
             yield return new WaitForSeconds(_dialougeSpeed);
         }
+        _finishedWrighting = true;
         _index++;
     }
 }
