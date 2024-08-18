@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +15,18 @@ public class FluidManager : MonoBehaviour
         Initialize();
     }
 
-    // This method initializes the LineRenderer and ball transforms
     private void Initialize()
     {
         _lineRenderer = GetComponent<LineRenderer>();
-        Transform[] allTransforms = GetComponentsInChildren<Transform>();
+        CollectBallTransforms();
+        UpdateLineRendererLoop();
+    }
 
+    private void CollectBallTransforms()
+    {
+        Transform[] allTransforms = GetComponentsInChildren<Transform>();
         _ballTransforms = new List<Transform>();
+
         foreach (var t in allTransforms)
         {
             if (t != transform)
@@ -30,19 +34,14 @@ public class FluidManager : MonoBehaviour
                 _ballTransforms.Add(t);
             }
         }
-
-        if (_ballTransforms.Count > 2)
-        {
-            _lineRenderer.loop = true;
-        }
-        else
-        {
-            _lineRenderer.loop = false;
-        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateLineRendererLoop()
+    {
+        _lineRenderer.loop = _ballTransforms.Count > 2;
+    }
+
+    private void Update()
     {
         if (_ballTransforms == null || _ballTransforms.Count < 2)
         {
@@ -52,31 +51,42 @@ public class FluidManager : MonoBehaviour
 
         float distance = Vector3.Distance(_ballTransforms[0].position, _ballTransforms[1].position);
 
-        // Calculate the angle between the balls
-        Vector3 direction = (_ballTransforms[1].position - _ballTransforms[0].position).normalized;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        angle = (angle < 0) ? angle + 360 : angle;
-
-        // Calculate the size based on the angle
-        float size0 = Mathf.Lerp(_ballTransforms[0].localScale.x, _ballTransforms[0].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-        float size1 = Mathf.Lerp(_ballTransforms[1].localScale.x, _ballTransforms[1].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-        
-        float totalSize = size0 + size1;
-        float midpointTime = size0 / totalSize;
-
-        // Disable the line renderer if the distance is too small
-        if (distance < Mathf.Min(size0, size1) / 2f)
+        if (ShouldDisableLineRenderer(distance))
         {
             _lineRenderer.enabled = false;
             return;
         }
-        else
-        {
-            _lineRenderer.enabled = true;
-        }
 
+        _lineRenderer.enabled = true;
         _lineRenderer.positionCount = lineSubdivisions;
 
+        UpdateLineRendererPositions();
+        UpdateLineRendererWidth(distance);
+    }
+
+    private bool ShouldDisableLineRenderer(float distance)
+    {
+        var sizes = CalculateSizes();
+        float size0 = sizes.Item1;
+        float size1 = sizes.Item2;
+
+        return distance < Mathf.Min(size0, size1) / 2f || CalculateMidpointWidth(distance, size0, size1) < 0.1f;
+    }
+
+    private (float, float) CalculateSizes()
+    {
+        Vector3 direction = (_ballTransforms[1].position - _ballTransforms[0].position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        angle = (angle < 0) ? angle + 360 : angle;
+
+        float size0 = Mathf.Lerp(_ballTransforms[0].localScale.x, _ballTransforms[0].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+        float size1 = Mathf.Lerp(_ballTransforms[1].localScale.x, _ballTransforms[1].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+
+        return (size0, size1);
+    }
+
+    private void UpdateLineRendererPositions()
+    {
         int numBalls = _ballTransforms.Count;
         for (int i = 0; i < lineSubdivisions; i++)
         {
@@ -88,38 +98,46 @@ public class FluidManager : MonoBehaviour
             Vector3 point = Vector3.Lerp(_ballTransforms[startIndex].position, _ballTransforms[endIndex].position, segmentT);
             _lineRenderer.SetPosition(i, point);
         }
+    }
 
-        // Calculate the width at the midpoint based on the distance and sizes
-        float midpointWidth = Mathf.Min((size0 + size1) / (2 * Mathf.Pow(distance, 2f)), Mathf.Min(size0, size1));
+    private void UpdateLineRendererWidth(float distance)
+    {
+        var sizes = CalculateSizes();
+        float size0 = sizes.Item1;
+        float size1 = sizes.Item2;
 
-        if (midpointWidth < 0.1f) // You can adjust the threshold as needed
-        {
-            _lineRenderer.enabled = false;
-            return;
-        }
-        
+        float midpointWidth = CalculateMidpointWidth(distance, size0, size1);
+        float totalSize = size0 + size1;
+        float midpointTime = size0 / totalSize;
+
         AnimationCurve widthCurve = new AnimationCurve();
         Keyframe key0 = new Keyframe(0f, size0);
         Keyframe keyMid = new Keyframe(midpointTime, midpointWidth);
         Keyframe key1 = new Keyframe(1f, size1);
 
-        // Set tangents to be flat
-        key0.inTangent = 0f;
-        key0.outTangent = 0f;
-        keyMid.inTangent = 0f;
-        keyMid.outTangent = 0f;
-        key1.inTangent = 0f;
-        key1.outTangent = 0f;
+        SetFlatTangents(key0);
+        SetFlatTangents(keyMid);
+        SetFlatTangents(key1);
 
         widthCurve.AddKey(key0);
         widthCurve.AddKey(keyMid);
         widthCurve.AddKey(key1);
 
-        // Move keys to ensure tangents are updated
         widthCurve.MoveKey(0, key0);
         widthCurve.MoveKey(1, keyMid);
         widthCurve.MoveKey(2, key1);
 
         _lineRenderer.widthCurve = widthCurve;
+    }
+
+    private float CalculateMidpointWidth(float distance, float size0, float size1)
+    {
+        return Mathf.Min((size0 + size1) / (2 * Mathf.Pow(distance, 2f)), Mathf.Min(size0, size1));
+    }
+
+    private void SetFlatTangents(Keyframe key)
+    {
+        key.inTangent = 0f;
+        key.outTangent = 0f;
     }
 }
