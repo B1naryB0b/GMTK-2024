@@ -210,7 +210,9 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _dashUsable = false;
             _dashing = true;
             _dashDirection = _frameInput.Move.normalized;
-            _frameVelocity = new Vector2(_dashDirection.x * _stats.DashSpeed, _dashDirection.y * _stats.DashSpeed);
+            Vector2 dashScaling = GetDashDirectionalScaling(_frameInput.Move);
+            
+            _frameVelocity = new Vector2(_dashDirection.x * dashScaling.x * _stats.DashSpeed, _dashDirection.y * dashScaling.y * _stats.DashSpeed);
             _dashTrail.emitting = true;
             _dashCooldownTime = _time + _stats.DashCooldown;
         }
@@ -227,6 +229,63 @@ public class PlayerController : MonoBehaviour, IPlayerController
             }
         }
     }
+
+    //PLEASE UNDER NO CIRCUMSTANCES TOUCH THIS FUNCTION ----------------------------------------------------------------------------------------------------------
+    //I know this looks awful, but just trust me, it works
+    private Vector2 GetDashDirectionalScaling(Vector2 moveDir)
+    {
+        // Round the moveDir to get consistent directional values
+        moveDir.x = moveDir.x > 0 ? 1 : (moveDir.x < 0 ? -1 : 0);
+        moveDir.y = moveDir.y > 0 ? 1 : (moveDir.y < 0 ? -1 : 0);
+
+        Vector2 scaling = Vector2.zero;
+
+        // Check for each direction
+        if (moveDir.x == 1 && moveDir.y == 1)
+        {
+            // Up-Right (W + D)
+            scaling = new Vector2(1, 1) * _stats.directionalScalingFactor.WD;
+        }
+        else if (moveDir.x == -1 && moveDir.y == 1)
+        {
+            // Up-Left (W + A)
+            scaling = new Vector2(1, 1) * _stats.directionalScalingFactor.WA;
+        }
+        else if (moveDir.x == 1 && moveDir.y == -1)
+        {
+            // Down-Right (S + D)
+            scaling = new Vector2(1, 1) * _stats.directionalScalingFactor.SD;
+        }
+        else if (moveDir.x == -1 && moveDir.y == -1)
+        {
+            // Down-Left (S + A)
+            scaling = new Vector2(1, 1) * _stats.directionalScalingFactor.SA;
+        }
+        else if (moveDir.x == 1)
+        {
+            // Right (D)
+            scaling = new Vector2(1, 0) * _stats.directionalScalingFactor.D;
+        }
+        else if (moveDir.x == -1)
+        {
+            // Left (A)
+            scaling = new Vector2(1, 0) * _stats.directionalScalingFactor.A;
+        }
+        else if (moveDir.y == 1)
+        {
+            // Up (W)
+            scaling = new Vector2(0, 1) * _stats.directionalScalingFactor.W;
+        }
+        else if (moveDir.y == -1)
+        {
+            // Down (S)
+            scaling = new Vector2(0, 1) * _stats.directionalScalingFactor.S;
+        }
+
+        return scaling;
+    }
+
+
 
     //Jumping
     private void HandleJump()

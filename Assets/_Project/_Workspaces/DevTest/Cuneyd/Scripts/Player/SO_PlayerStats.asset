@@ -32,7 +32,16 @@ MonoBehaviour:
   JumpBuffer: 0.2
   DashSpeed: 65
   DashTime: 0.1
-  DashCooldown: 1.5
+  DashCooldown: 1
+  directionalScalingFactor:
+    W: 0.5
+    WD: 1
+    D: 1
+    SD: 1
+    S: 1
+    SA: 1
+    A: 1
+    WA: 1
   WallJumpPower: 50
   wallJumpX: 0.6
   wallJumpY: 1
