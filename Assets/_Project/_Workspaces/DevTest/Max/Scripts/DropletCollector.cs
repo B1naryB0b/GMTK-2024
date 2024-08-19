@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class DropletCollector : MonoBehaviour
 {
-
+    private float mass = 5.0f;
     private Transform _transform;
     private List<Rigidbody2D> _rigidbody2Ds = new List<Rigidbody2D>();
     public ParticleSystem particleSystem; 
@@ -46,6 +47,9 @@ public class DropletCollector : MonoBehaviour
             Debug.Log(angle);
             particleSystem.transform.rotation = Quaternion.Euler(0, 0, angle);
             particleSystem.Play();
+
+            mass += other.gameObject.GetComponent<Droplet>().mass;
+            // Apply some sort of scaling to the movement variables
 
             _rigidbody2Ds.Remove(other.gameObject.GetComponent<Rigidbody2D>());
             Destroy(other.gameObject);
