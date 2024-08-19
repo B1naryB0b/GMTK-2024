@@ -5137,11 +5137,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 79334164664851303, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 469
+      value: 792
       objectReference: {fileID: 0}
     - target: {fileID: 79334164664851303, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 266
+      value: 445
       objectReference: {fileID: 0}
     - target: {fileID: 247857091689457996, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_Name
@@ -5150,6 +5150,10 @@ PrefabInstance:
     - target: {fileID: 661526463395537704, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_Name
       value: Text (TMP)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528737383481826188, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0000019073
       objectReference: {fileID: 0}
     - target: {fileID: 2462344622747828895, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5252,7 +5256,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 661526463395537704, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7687161933648229477, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
@@ -5261,7 +5266,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
 --- !u!114 &1454738813 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2994183706757974581, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+  m_CorrespondingSourceObject: {fileID: 672198014469704000, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
   m_PrefabInstance: {fileID: 1454738812}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

@@ -10,7 +10,7 @@ public class LevelTracker : MonoBehaviour
     public void GoTONextLevel()
     {
 
-        SceneManager.LoadSceneAsync(LevelIndex + 3);
+        SceneManager.LoadSceneAsync((LevelIndex + 3));
     }
 
     public void IncIndex()
