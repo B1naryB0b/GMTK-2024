@@ -9,6 +9,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource musicSource, sfxSource;
 
     private GameObject _sfxGameObject;
+    [SerializeField] private float fadeDuration = 1.0f;
 
     private void Start()
     {
@@ -51,8 +52,60 @@ public class AudioController : MonoBehaviour
         sfxSource.volume = value;
     }
 
+    public void FadeInAndOut(AudioClip nextTrack)
+    {
+        StartCoroutine(FadeOutIn(nextTrack));
+    }
+
+    public void FadeOut()
+    {
+        StartCoroutine(FadeOutCoroutine());
+    }
+
+    public void FadeIn()
+    {
+        StartCoroutine(FadeInCoroutine());
+    }
+
     public AudioController GetAudioControllerInstance()
     {
         return Instance;
+    }
+
+    private IEnumerator FadeOutIn(AudioClip nextTrack)
+    {
+        yield return FadeOutCoroutine();
+        musicSource.clip = nextTrack;
+        musicSource.Play();
+        yield return FadeInCoroutine();
+    }
+
+    private IEnumerator FadeOutCoroutine()
+    {
+        float startVolume = musicSource.volume;
+
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            musicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            yield return null;
+        }
+
+        musicSource.volume = 0;
+        musicSource.Stop();
+    }
+
+    private IEnumerator FadeInCoroutine()
+    {
+        float startVolume = 0.0f;
+        musicSource.volume = startVolume;
+        musicSource.Play();
+
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            musicSource.volume = Mathf.Lerp(startVolume, 1.0f, t / fadeDuration);
+            yield return null;
+        }
+
+        musicSource.volume = 1.0f;
     }
 }
