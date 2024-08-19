@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Droplet
   - Npc
+  - GameMusic
   layers:
   - Default
   - TransparentFX

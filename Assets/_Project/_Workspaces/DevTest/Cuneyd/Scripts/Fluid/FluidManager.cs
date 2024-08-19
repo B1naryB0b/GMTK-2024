@@ -1,14 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
+
 public class FluidManager : MonoBehaviour
 {
-    private LineRenderer _lineRenderer;
-    private List<Transform> _ballTransforms;
+    private List<LineRenderer> _lineRenderers;
+    private List<Transform> _dropletTransforms;
 
+    [SerializeField] private Transform playerTransform;
     [SerializeField] private int lineSubdivisions;
+    [SerializeField] private Material lineMaterial;
+    [SerializeField] private Gradient gradient;
 
+    private (float, float) _sizes;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -17,103 +22,108 @@ public class FluidManager : MonoBehaviour
 
     private void Initialize()
     {
-        _lineRenderer = GetComponent<LineRenderer>();
-        CollectBallTransforms();
-        UpdateLineRendererLoop();
+        _dropletTransforms = new List<Transform>();
+        _lineRenderers = new List<LineRenderer>();
     }
 
-    private void CollectBallTransforms()
+    public void AddDroplet(Droplet droplet)
     {
-        Transform[] allTransforms = GetComponentsInChildren<Transform>();
-        _ballTransforms = new List<Transform>();
-
-        foreach (var t in allTransforms)
-        {
-            if (t != transform)
-            {
-                _ballTransforms.Add(t);
-            }
-        }
+        Debug.Log("Added Droplet");
+        _dropletTransforms.Add(droplet.gameObject.transform);
+        
+        GameObject fluidObject = new GameObject("Fluid Line");
+        fluidObject.transform.parent = this.gameObject.transform;
+        
+        LineRenderer lineRenderer = fluidObject.AddComponent<LineRenderer>();
+        lineRenderer.enabled = true;
+        lineRenderer.numCornerVertices = 0;
+        lineRenderer.numCapVertices = 0;
+        lineRenderer.positionCount = lineSubdivisions;
+        lineRenderer.material = lineMaterial;
+        lineRenderer.colorGradient = gradient;
+        
+        _lineRenderers.Add(lineRenderer);
     }
 
-    private void UpdateLineRendererLoop()
+    public void RemoveDroplet(Droplet droplet)
     {
-        _lineRenderer.loop = _ballTransforms.Count > 2;
+        Debug.Log("Removed Droplet");
+        GameObject fluidObject = _lineRenderers[^1].gameObject;
+        _dropletTransforms.Remove(droplet.gameObject.transform);
+        _lineRenderers.RemoveAt(_lineRenderers.Count - 1);
+        Destroy(fluidObject);
     }
 
     private void Update()
     {
-        if (_ballTransforms == null || _ballTransforms.Count < 2)
+        if (_dropletTransforms.Count < 1) return;
+        
+        for (int i = 0; i < _dropletTransforms.Count; i++)
         {
-            Initialize();
-            if (_ballTransforms.Count < 2) return;
+            float distance = Vector3.Distance(playerTransform.position, _dropletTransforms[i].position);
+            _sizes = CalculateSizes(i);
+            
+            if (ShouldDisableLineRenderer(distance))
+            {
+                _lineRenderers[i].enabled = false;
+                return;
+            }
+
+            _lineRenderers[i].enabled = true;
+            _lineRenderers[i].positionCount = lineSubdivisions;
+
+            UpdateLineRendererPositions(i);
+            UpdateLineRendererWidth(distance, i);
         }
-
-        float distance = Vector3.Distance(_ballTransforms[0].position, _ballTransforms[1].position);
-
-        if (ShouldDisableLineRenderer(distance))
-        {
-            _lineRenderer.enabled = false;
-            return;
-        }
-
-        _lineRenderer.enabled = true;
-        _lineRenderer.positionCount = lineSubdivisions;
-
-        UpdateLineRendererPositions();
-        UpdateLineRendererWidth(distance);
     }
 
     private bool ShouldDisableLineRenderer(float distance)
     {
-        var sizes = CalculateSizes();
-        float size0 = sizes.Item1;
-        float size1 = sizes.Item2;
+        float playerSize = _sizes.Item1;
+        float dropletSize = _sizes.Item2;
 
-        return distance < Mathf.Min(size0, size1) / 2f || CalculateMidpointWidth(distance, size0, size1) < 0.1f;
+        bool isRendered = distance < Mathf.Min(playerSize, dropletSize) / 2f || CalculateMidpointWidth(distance, playerSize, dropletSize) < 0.01f;
+        return isRendered;
     }
 
-    private (float, float) CalculateSizes()
+    private (float, float) CalculateSizes(int i)
     {
-        Vector3 direction = (_ballTransforms[1].position - _ballTransforms[0].position).normalized;
+        Vector3 direction = (_dropletTransforms[i].position - playerTransform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         angle = (angle < 0) ? angle + 360 : angle;
 
-        float size0 = Mathf.Lerp(_ballTransforms[0].localScale.x, _ballTransforms[0].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-        float size1 = Mathf.Lerp(_ballTransforms[1].localScale.x, _ballTransforms[1].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+        float playerSize = Mathf.Lerp(playerTransform.localScale.x, playerTransform.localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+        float dropletSize = Mathf.Lerp(_dropletTransforms[i].localScale.x, _dropletTransforms[i].localScale.y, Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
 
-        return (size0, size1);
+        return (playerSize, dropletSize);
     }
 
-    private void UpdateLineRendererPositions()
+    private void UpdateLineRendererPositions(int i)
     {
-        int numBalls = _ballTransforms.Count;
-        for (int i = 0; i < lineSubdivisions; i++)
+        for (int j = 0; j < lineSubdivisions; j++)
         {
-            float t = (float)i / (lineSubdivisions - 1);
-            int startIndex = Mathf.FloorToInt(t * (numBalls - 1));
-            int endIndex = (startIndex + 1) % numBalls;
+            float t = (float)j / (lineSubdivisions - 1);
 
-            float segmentT = (t * (numBalls - 1)) - startIndex;
-            Vector3 point = Vector3.Lerp(_ballTransforms[startIndex].position, _ballTransforms[endIndex].position, segmentT);
-            _lineRenderer.SetPosition(i, point);
+            Vector3 point = Vector3.Lerp(playerTransform.position, _dropletTransforms[i].position, t);
+
+            _lineRenderers[i].SetPosition(j, point);
         }
     }
 
-    private void UpdateLineRendererWidth(float distance)
-    {
-        var sizes = CalculateSizes();
-        float size0 = sizes.Item1;
-        float size1 = sizes.Item2;
 
-        float midpointWidth = CalculateMidpointWidth(distance, size0, size1);
-        float totalSize = size0 + size1;
-        float midpointTime = size0 / totalSize;
+    private void UpdateLineRendererWidth(float distance, int i)
+    {
+        float playerSize = _sizes.Item1;
+        float dropletSize = _sizes.Item2;
+
+        float midpointWidth = CalculateMidpointWidth(distance, playerSize, dropletSize);
+        float totalSize = playerSize + dropletSize;
+        float midpointTime = playerSize / totalSize;
 
         AnimationCurve widthCurve = new AnimationCurve();
-        Keyframe key0 = new Keyframe(0f, size0);
+        Keyframe key0 = new Keyframe(0f, playerSize);
         Keyframe keyMid = new Keyframe(midpointTime, midpointWidth);
-        Keyframe key1 = new Keyframe(1f, size1);
+        Keyframe key1 = new Keyframe(1f, dropletSize);
 
         SetFlatTangents(key0);
         SetFlatTangents(keyMid);
@@ -127,12 +137,12 @@ public class FluidManager : MonoBehaviour
         widthCurve.MoveKey(1, keyMid);
         widthCurve.MoveKey(2, key1);
 
-        _lineRenderer.widthCurve = widthCurve;
+        _lineRenderers[i].widthCurve = widthCurve;
     }
 
-    private float CalculateMidpointWidth(float distance, float size0, float size1)
+    private float CalculateMidpointWidth(float distance, float playerSize, float dropletSize)
     {
-        return Mathf.Min((size0 + size1) / (2 * Mathf.Pow(distance, 2f)), Mathf.Min(size0, size1));
+        return Mathf.Min((playerSize + dropletSize) / (2 * Mathf.Pow(distance, 2f)), Mathf.Min(playerSize, dropletSize));
     }
 
     private void SetFlatTangents(Keyframe key)

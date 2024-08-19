@@ -16,7 +16,7 @@ public interface IPlayerController
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(TrailRenderer))]
 [RequireComponent(typeof(InputHandler))]
 public class PlayerController : MonoBehaviour, IPlayerController
@@ -30,9 +30,11 @@ public class PlayerController : MonoBehaviour, IPlayerController
     [SerializeField] private PlayerMoveMode moveMode;
     
     [SerializeField] private ScriptableStats _stats;
+
+    private DropletManager _dropletManager;
     private InputHandler _inputHandler;
     private Rigidbody2D _rigidBod;
-    private CapsuleCollider2D _capCol;
+    private CircleCollider2D _circleCol;
     private TrailRenderer _dashTrail;
     private FrameInput _frameInput;
     private Vector2 _frameVelocity;
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     //colision Variables
     private float _frameLeftGround = float.MinValue;
     private bool _grounded;
+    public bool grounded => _grounded;
     //jumping variables
     private bool _jumpToConsume;
     private bool _bufferedJumpUsable;
@@ -58,28 +61,33 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private bool CanUseCoyote => _coyoteUsable && !_grounded && _time < _frameLeftGround + _stats.CoyoteTime;
     //Dash Variables
     private bool _dashing;
+    public bool dashing => _dashing;
     private bool _dashUsable;
     private bool _dashToConsume;
     private float _timeDashPressed;
     private float _dashCooldownTime;
     private Vector2 _dashDirection;
-    private bool CanUseDash => _dashUsable &&_time < _timeDashPressed + _stats.DashTime;
-
+    public Vector2 dashDirection => _dashDirection;
+    private bool CanUseDash => _dashUsable &&_time < _timeDashPressed + _stats.DashTime && _largeEnoughToDash;
+    private bool _largeEnoughToDash;
 
     private bool _bufferedWallJumpUsable;
     private bool HasBufferedWallJump => _bufferedWallJumpUsable && _time < _timeJumpWasPressed + _stats.WallJumpBuffer;
     private bool CanWallJump => _wallHit && !_grounded && HasBufferedWallJump;
     private bool _wallHit;
+    public bool wallHit => _wallHit;
     private Vector2 _wallNormal;
-    
-    
+    public Vector2 wallNormal => _wallNormal;
+
+    private float _velocityScaling;
     
     // Start is called before the first frame update
     void Awake()
     {
+        _dropletManager = GetComponent<DropletManager>();
         _inputHandler = GetComponent<InputHandler>();
         _rigidBod = GetComponent<Rigidbody2D>();
-        _capCol = GetComponent<CapsuleCollider2D>();
+        _circleCol = GetComponent<CircleCollider2D>();
         _dashTrail = GetComponent<TrailRenderer>();
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
@@ -98,7 +106,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
     {
         _time += Time.deltaTime;
         GatherInputs();
-        Debug.Log("update");
     }
 
     private void GatherInputs()
@@ -138,6 +145,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             HandleGravity();
         }
 
+        AdjustVelocityForMass();
         ApplyMovement();
     }
     
@@ -192,7 +200,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private RaycastHit2D CastInDirection(Vector2 direction)
     {
-        return Physics2D.CapsuleCast(_capCol.bounds.center, _capCol.size, _capCol.direction, 0, direction, _stats.GrounderDistance, ~_stats.PlayerLayer);
+        return Physics2D.CircleCast(_circleCol.bounds.center, _circleCol.radius * transform.localScale.y, direction, _stats.GrounderDistance, ~_stats.PlayerLayer);
     }
     
     //Dashing
@@ -207,14 +215,18 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         if (CanUseDash)
         {
-            _dashUsable = false;
-            _dashing = true;
             _dashDirection = _frameInput.Move.normalized;
             Vector2 dashScaling = GetDashDirectionalScaling(_frameInput.Move);
-            
-            _frameVelocity = new Vector2(_dashDirection.x * dashScaling.x * _stats.DashSpeed, _dashDirection.y * dashScaling.y * _stats.DashSpeed);
-            _dashTrail.emitting = true;
-            _dashCooldownTime = _time + _stats.DashCooldown;
+
+            if (_dashDirection != Vector2.zero)
+            {
+                _dashUsable = false;
+                _dashing = true;
+                _frameVelocity = new Vector2(_dashDirection.x * dashScaling.x * _stats.DashSpeed, _dashDirection.y * dashScaling.y * _stats.DashSpeed);
+                _dashTrail.emitting = true;
+                _dashCooldownTime = _time + _stats.DashCooldown;
+                _dropletManager.SubtractMass(-dashDirection);
+            }
         }
 
         if(_dashing)
@@ -358,6 +370,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
         }
     }
 
+    private void AdjustVelocityForMass()
+    {
+        float mass = _dropletManager.GetMass();
+        _largeEnoughToDash = mass > 0f;
+        
+        _velocityScaling = -Mathf.Pow((mass - 1f) / 1.75f, 3f) + ((1 - mass) / 100f) + 1f;
+    }
+
     private void ApplyMovement()
     {
         switch (moveMode)
@@ -366,7 +386,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
                 _rigidBod.AddForce(_frameVelocity, ForceMode2D.Force);
                 break;
             case PlayerMoveMode.Velocity:
-                _rigidBod.velocity = _frameVelocity;
+                _rigidBod.velocity = _frameVelocity * _velocityScaling;
                 break;
             default:
                 Debug.LogError("Select a player movement mode");
