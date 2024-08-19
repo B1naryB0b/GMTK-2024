@@ -12,6 +12,8 @@ public class FluidManager : MonoBehaviour
     [SerializeField] private Material lineMaterial;
     [SerializeField] private Gradient gradient;
 
+    [SerializeField] private int orderInLayer;
+
     private (float, float) _sizes;
     
     // Start is called before the first frame update
@@ -41,6 +43,7 @@ public class FluidManager : MonoBehaviour
         lineRenderer.positionCount = lineSubdivisions;
         lineRenderer.material = lineMaterial;
         lineRenderer.colorGradient = gradient;
+        lineRenderer.sortingOrder = orderInLayer;
         
         _lineRenderers.Add(lineRenderer);
     }
