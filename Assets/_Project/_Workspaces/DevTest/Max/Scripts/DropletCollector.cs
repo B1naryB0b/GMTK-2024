@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class DropletCollector : MonoBehaviour
 {
-    private List<Rigidbody2D> _rigidbody2Ds = new List<Rigidbody2D>();
-    public ParticleSystem particleSystem; 
+    private List<Rigidbody2D> _rigidbody2Ds = new List<Rigidbody2D>(); 
+    private ParticleSystem _particleSystem; 
 
     [SerializeField] private float pullStrength;
 
@@ -18,6 +18,7 @@ public class DropletCollector : MonoBehaviour
     {
         _fluidManager = FindObjectOfType<FluidManager>();
         _dropletManager = GetComponent<DropletManager>();
+        _particleSystem = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -62,8 +63,8 @@ public class DropletCollector : MonoBehaviour
             Vector3 contactPoint = other.GetContact(0).point;
             float angle = Mathf.Rad2Deg * Mathf.Atan2(contactPoint.x - transform.position.x, contactPoint.y - transform.position.y);
             Debug.Log(angle);
-            particleSystem.transform.rotation = Quaternion.Euler(0, 0, angle);
-            particleSystem.Play();
+            _particleSystem.transform.rotation = Quaternion.Euler(0, 0, angle);
+            _particleSystem.Play();
             
             _dropletManager.AddMass(droplet.mass);
             Rigidbody2D rb = droplet.gameObject.GetComponent<Rigidbody2D>();
