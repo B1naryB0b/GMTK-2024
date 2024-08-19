@@ -21,11 +21,13 @@ public class DialougeManager : MonoBehaviour
     private string[] _currDialouge;
     private string _currName = "";
     [SerializeField] private Image _currSprite;
+    private LevelTracker _levelTrack;
     
     // Start is called before the first frame update
     void Start()
     {
-        LevelIndex = 0; //needs to be read each time i imagine from gamestate
+        _levelTrack = FindObjectOfType<LevelTracker>();
+        LevelIndex = _levelTrack.LevelIndex;
         DestroyCurrBox();
         ReadTextFiles();
     }

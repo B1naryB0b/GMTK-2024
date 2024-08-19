@@ -10,12 +10,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float _volume = 0.5f;
     [SerializeField] private bool _loop;
     // Start is called before the first frame update
-    void Start()
-    {
-        if(Clips[_index] != null)
-        {
-        }
-    }
     
     public void PlaySound()
     {

@@ -7,9 +7,9 @@ public class ObjectivePickup : MonoBehaviour
     [SerializeField] private LevelManager _levelMan;
     [SerializeField] private float _rotationSpeed = 50.0f;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag.Equals("Player"))
+        if (collision.gameObject.TryGetComponent(out PlayerController playerCon))
         {
             _levelMan.CollectedObjective();
             //maybe play animation

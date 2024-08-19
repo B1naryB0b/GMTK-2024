@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public bool HasCollectedObjective { get { return _hasCollectedObjective; } }
     [SerializeField] private HudManager _hudMan;
     [SerializeField] private PlayerController _playerCon;
+    private LevelTracker _levelTrack;
 
     public void CollectedObjective()
     {
@@ -17,6 +18,11 @@ public class LevelManager : MonoBehaviour
     {
         //disable player
         _playerCon.enabled = false;
+        _levelTrack = FindObjectOfType<LevelTracker>();
+        if (_levelTrack != null)
+        {
+            _levelTrack.IncIndex();
+        }
         _hudMan.BeatLevel();
         //animateHud
 
