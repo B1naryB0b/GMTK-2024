@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -66,6 +67,22 @@ public class ScriptableStats : ScriptableObject
     
     [Tooltip("How long before you can dash again")]
     public float DashCooldown = 2f;
+
+    [Tooltip("Controls the scaling of the dash in a given direction")]
+    public Directions directionalScalingFactor; 
+    
+    [Serializable]
+    public class Directions
+    {
+        [Range(0f, 1f)] public float W = 1f;       // Up
+        [Range(0f, 1f)] public float WD = 1f;      // Up-Right
+        [Range(0f, 1f)] public float D = 1f;       // Right
+        [Range(0f, 1f)] public float SD = 1f;      // Down-Right
+        [Range(0f, 1f)] public float S = 1f;       // Down
+        [Range(0f, 1f)] public float SA = 1f;      // Down-Left
+        [Range(0f, 1f)] public float A = 1f;       // Left
+        [Range(0f, 1f)] public float WA = 1f;      // Up-Left
+    }
     
     [Header("WALL JUMP")]
     [Tooltip("The immediate velocity applied when wall jumping")]
@@ -83,6 +100,6 @@ public class ScriptableStats : ScriptableObject
     
     [Tooltip("The amount of time we buffer a wall jump. This allows jump input before actually hitting the wall")]
     public float WallJumpBuffer = .2f;
-
-
+    
+    
 }
