@@ -6,11 +6,14 @@ public class Exit : MonoBehaviour
 {
     [SerializeField] private LevelManager _levelMan;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_levelMan.HasCollectedObjective)
+        if (collision.gameObject.TryGetComponent(out PlayerController playerCon))
         {
-            _levelMan.EndLevel();
+            if (_levelMan.HasCollectedObjective)
+            {
+                _levelMan.EndLevel();
+            }
         }
     }
 }
