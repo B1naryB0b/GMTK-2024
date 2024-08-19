@@ -16,6 +16,8 @@ public class PlayerVisualAnimation : MonoBehaviour
     // Scaling factors
     private Vector3 _normalScale;
     private Vector3 _movingScale;
+    private Vector3 _initialJumpingScale;
+    private Vector3 _finalJumpingScale;
 
     [SerializeField] private Vector2 moveScale;
     [SerializeField] private Vector2 initialJumpScale;
@@ -31,14 +33,24 @@ public class PlayerVisualAnimation : MonoBehaviour
         _playerController = GetComponentInParent<PlayerController>();
 
         // Initialize scales
-        _normalScale = transform.localScale;
-        _movingScale = new Vector3(_normalScale.x * moveScale.x, _normalScale.y * moveScale.y, _normalScale.z);
+        SetNormalScale(transform.localScale);
     }
 
+    public void SetNormalScale(Vector3 scale)
+    {
+        _normalScale = scale;
+    }
+    
     // Update is called once per frame
     void Update()
     {
         _frameInput = _inputHandler.GetFrameInput();
+        
+        _movingScale = new Vector3(_normalScale.x * moveScale.x, _normalScale.y * moveScale.y, _normalScale.z);
+        _initialJumpingScale = new Vector3(_normalScale.x * initialJumpScale.x, _normalScale.y * initialJumpScale.y,
+            _normalScale.z);
+        _finalJumpingScale = new Vector3(_normalScale.x * finalJumpScale.x, _normalScale.y * finalJumpScale.y,
+            _normalScale.z);
 
         Vector3 targetScale;
 
@@ -52,10 +64,10 @@ public class PlayerVisualAnimation : MonoBehaviour
             _targetAngle = 0f;
             if (_frameInput.JumpDown)
             {
-                transform.localScale = initialJumpScale;
+                transform.localScale = _initialJumpingScale;
             }
 
-            targetScale = finalJumpScale;
+            targetScale = _finalJumpingScale;
         }
         else
         {

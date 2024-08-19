@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
+
 public class FluidManager : MonoBehaviour
 {
     private List<LineRenderer> _lineRenderers;
@@ -10,6 +10,7 @@ public class FluidManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private int lineSubdivisions;
     [SerializeField] private Material lineMaterial;
+    [SerializeField] private Gradient gradient;
 
     private (float, float) _sizes;
     
@@ -22,19 +23,24 @@ public class FluidManager : MonoBehaviour
     private void Initialize()
     {
         _dropletTransforms = new List<Transform>();
+        _lineRenderers = new List<LineRenderer>();
     }
 
     public void AddDroplet(Droplet droplet)
     {
         Debug.Log("Added Droplet");
         _dropletTransforms.Add(droplet.gameObject.transform);
+        
         GameObject fluidObject = new GameObject("Fluid Line");
+        fluidObject.transform.parent = this.gameObject.transform;
+        
         LineRenderer lineRenderer = fluidObject.AddComponent<LineRenderer>();
         lineRenderer.enabled = true;
         lineRenderer.numCornerVertices = 0;
         lineRenderer.numCapVertices = 0;
         lineRenderer.positionCount = lineSubdivisions;
         lineRenderer.material = lineMaterial;
+        lineRenderer.colorGradient = gradient;
         
         _lineRenderers.Add(lineRenderer);
     }
@@ -42,14 +48,16 @@ public class FluidManager : MonoBehaviour
     public void RemoveDroplet(Droplet droplet)
     {
         Debug.Log("Removed Droplet");
+        GameObject fluidObject = _lineRenderers[^1].gameObject;
         _dropletTransforms.Remove(droplet.gameObject.transform);
         _lineRenderers.RemoveAt(_lineRenderers.Count - 1);
+        Destroy(fluidObject);
     }
 
     private void Update()
     {
         if (_dropletTransforms.Count < 1) return;
-
+        
         for (int i = 0; i < _dropletTransforms.Count; i++)
         {
             float distance = Vector3.Distance(playerTransform.position, _dropletTransforms[i].position);
@@ -66,9 +74,7 @@ public class FluidManager : MonoBehaviour
 
             UpdateLineRendererPositions(i);
             UpdateLineRendererWidth(distance, i);
-            
         }
-        
     }
 
     private bool ShouldDisableLineRenderer(float distance)
@@ -76,7 +82,8 @@ public class FluidManager : MonoBehaviour
         float playerSize = _sizes.Item1;
         float dropletSize = _sizes.Item2;
 
-        return distance < Mathf.Min(playerSize, dropletSize) / 2f || CalculateMidpointWidth(distance, playerSize, dropletSize) < 0.1f;
+        bool isRendered = distance < Mathf.Min(playerSize, dropletSize) / 2f || CalculateMidpointWidth(distance, playerSize, dropletSize) < 0.01f;
+        return isRendered;
     }
 
     private (float, float) CalculateSizes(int i)
@@ -93,18 +100,16 @@ public class FluidManager : MonoBehaviour
 
     private void UpdateLineRendererPositions(int i)
     {
-        int numBalls = _dropletTransforms.Count;
         for (int j = 0; j < lineSubdivisions; j++)
         {
             float t = (float)j / (lineSubdivisions - 1);
-            int startIndex = Mathf.FloorToInt(t * (numBalls - 1));
-            int endIndex = (startIndex + 1) % numBalls;
 
-            float segmentT = (t * (numBalls - 1)) - startIndex;
-            Vector3 point = Vector3.Lerp(_dropletTransforms[startIndex].position, _dropletTransforms[endIndex].position, segmentT);
+            Vector3 point = Vector3.Lerp(playerTransform.position, _dropletTransforms[i].position, t);
+
             _lineRenderers[i].SetPosition(j, point);
         }
     }
+
 
     private void UpdateLineRendererWidth(float distance, int i)
     {
