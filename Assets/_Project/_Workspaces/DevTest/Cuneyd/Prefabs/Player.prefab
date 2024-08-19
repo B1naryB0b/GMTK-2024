@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: f2451ad2500bc784e821bd1501738568, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 4290817863247589239}
   - component: {fileID: 8560772398776326142}
   - component: {fileID: 4425899531570057739}
+  - component: {fileID: 3866908454794730965}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -213,7 +214,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 8
 --- !u!50 &2296873422675189866
 Rigidbody2D:
   serializedVersion: 4
@@ -410,7 +411,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cda881c82980eb43a981f4e532dd204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pullStrength: 1000
+  pullStrength: 10000
+--- !u!114 &3866908454794730965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3626370037901426538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5367ce292327174ba12bd5ac21fe494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropletPrefab: {fileID: 6435530430347257885, guid: 7c69321f74316ca439198c9d4d0d18e4, type: 3}
+  ejectionForce: 0.01
+  mass: 1
 --- !u!1 &9186098683838504123
 GameObject:
   m_ObjectHideFlags: 0
