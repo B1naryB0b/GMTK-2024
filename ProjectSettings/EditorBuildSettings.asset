@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/_Project/_Workspaces/DevTest/Belle/Scene/MainMenu.unity
     guid: 301f7d5aff4852749b81b427f72c1360
   - enabled: 1
-    path: Assets/_Project/_Workspaces/DevTest/Yusuf/Scenes/SCN_Yusuf_level_2_or_3.unity
-    guid: 03b00cf710b38434d95214d2061c2d57
+    path: Assets/_Project/_Workspaces/DevTest/Yusuf/Scenes/SCN_Yusuf_level_0.unity
+    guid: 68434140fdab5f246bdda8b32776ed5d
   - enabled: 1
     path: Assets/_Project/_Workspaces/DevTest/Belle/Scene/Hub World.unity
     guid: 4868b455f74d8a0439d98caa6f9f8aa4
+  - enabled: 1
+    path: Assets/_Project/_Workspaces/DevTest/Yusuf/Scenes/SCN_Yusuf_Level_1.unity
+    guid: e40864e2190989246a32f7eb40474484
+  - enabled: 1
+    path: Assets/_Project/_Workspaces/DevTest/Yusuf/Scenes/SCN_Yusuf_level_2_or_3.unity
+    guid: 03b00cf710b38434d95214d2061c2d57
   m_configObjects: {}
