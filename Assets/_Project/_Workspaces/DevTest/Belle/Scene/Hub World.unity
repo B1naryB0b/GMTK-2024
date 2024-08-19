@@ -764,7 +764,7 @@ Transform:
   m_GameObject: {fileID: 439544335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.04, y: 3.29, z: -1}
+  m_LocalPosition: {x: 29.04, y: 3.29, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -795,7 +795,7 @@ GameObject:
   - component: {fileID: 489524293}
   - component: {fileID: 489524292}
   - component: {fileID: 489524295}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprinkley
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +908,7 @@ Transform:
   m_GameObject: {fileID: 489524291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.07, y: 2.11, z: -1}
+  m_LocalPosition: {x: -25.07, y: 2.11, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -955,7 +955,7 @@ GameObject:
   - component: {fileID: 1393534563}
   - component: {fileID: 1393534562}
   - component: {fileID: 1393534561}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1124,7 +1124,7 @@ Transform:
   m_GameObject: {fileID: 1594488904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.9755, y: -9.8464, z: 0}
+  m_LocalPosition: {x: 9.9755, y: -9.8464, z: 2}
   m_LocalScale: {x: 100.06762, y: 13.521207, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1187,7 +1187,7 @@ GameObject:
   - component: {fileID: 1760410111}
   - component: {fileID: 1760410110}
   - component: {fileID: 1760410109}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Clipy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1303,7 +1303,7 @@ Transform:
   m_GameObject: {fileID: 1760410108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2863, y: 1.24, z: -1}
+  m_LocalPosition: {x: 2.2863, y: 1.24, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1480,6 +1480,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1393534564}
     m_Modifications:
+    - target: {fileID: 1121937612603813714, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2845688095860635540, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402764333764993531, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1494,7 +1506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1502,7 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1546,7 +1558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -304
+      value: -113
       objectReference: {fileID: 0}
     - target: {fileID: 3732217767003767592, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1564,9 +1576,17 @@ PrefabInstance:
       propertyPath: _diaManager
       value: 
       objectReference: {fileID: 160905370}
+    - target: {fileID: 5516267569947494235, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7573782147543584085, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_Name
       value: DialougeInstance
+      objectReference: {fileID: 0}
+    - target: {fileID: 7573782147543584085, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
