@@ -590,7 +590,7 @@ PrefabInstance:
     - target: {fileID: 4416925305000346297, guid: a6bf802e5362e0f4ba45534fe2d22e91, type: 3}
       propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2061849556}
     - target: {fileID: 7562526640417933134, guid: a6bf802e5362e0f4ba45534fe2d22e91, type: 3}
       propertyPath: m_Name
       value: Fluid Manager
