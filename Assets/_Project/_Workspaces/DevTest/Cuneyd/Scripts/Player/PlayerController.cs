@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     
     [SerializeField] private ScriptableStats _stats;
 
-    private DropletManager _dropletManager;
+    public DropletManager _dropletManager;
     private InputHandler _inputHandler;
     private Rigidbody2D _rigidBod;
     private CircleCollider2D _circleCol;

@@ -629,8 +629,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412e9f623dfe68d45a9ac9834a3305ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _boardText: {fileID: 1454738813}
   _timer: {fileID: 1842601041}
   _endBoard: {fileID: 1032702403}
+  _player: {fileID: 1867965904}
 --- !u!4 &700951250
 Transform:
   m_ObjectHideFlags: 0
@@ -5145,6 +5147,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hud
       objectReference: {fileID: 0}
+    - target: {fileID: 661526463395537704, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+      propertyPath: m_Name
+      value: Text (TMP)
+      objectReference: {fileID: 0}
     - target: {fileID: 2462344622747828895, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5253,6 +5259,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1032702408}
   m_SourcePrefab: {fileID: 100100000, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+--- !u!114 &1454738813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2994183706757974581, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+  m_PrefabInstance: {fileID: 1454738812}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1615230513
 GameObject:
   m_ObjectHideFlags: 0
