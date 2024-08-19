@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class ObjectivePickup : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private LevelManager _levelMan;
+    [SerializeField] private float _rotationSpeed = 50.0f;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.gameObject.tag.Equals("Player"))
+        {
+            _levelMan.CollectedObjective();
+            //maybe play animation
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        transform.Rotate(Vector3.forward * _rotationSpeed * Time.deltaTime);
     }
 }

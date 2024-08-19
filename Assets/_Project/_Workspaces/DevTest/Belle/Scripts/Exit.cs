@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Exit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private LevelManager _levelMan;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (_levelMan.HasCollectedObjective)
+        {
+            _levelMan.EndLevel();
+        }
     }
 }

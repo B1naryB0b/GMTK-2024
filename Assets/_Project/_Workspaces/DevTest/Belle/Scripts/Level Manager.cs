@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private bool _hasCollectedObjective = false;
+    public bool HasCollectedObjective { get { return _hasCollectedObjective; } }
+    [SerializeField] private HudManager _hudMan;
+    [SerializeField] private PlayerController _playerCon;
 
-    // Update is called once per frame
-    void Update()
+    public void CollectedObjective()
     {
-        
+        _hasCollectedObjective = true;
+    }
+    public void EndLevel()
+    {
+        //disable player
+        _playerCon.enabled = false;
+        _hudMan.BeatLevel();
+        //animateHud
+
     }
 }
