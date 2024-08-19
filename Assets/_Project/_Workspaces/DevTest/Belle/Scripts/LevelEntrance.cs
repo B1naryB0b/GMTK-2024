@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class LevelEntrance : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float _rotationSpeed = 50.0f;
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Rotate(Vector3.forward * _rotationSpeed * Time.deltaTime);
     }
+
+
 }
