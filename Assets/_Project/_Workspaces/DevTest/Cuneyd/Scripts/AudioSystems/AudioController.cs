@@ -42,6 +42,24 @@ public class AudioController : MonoBehaviour
         sfxSource.PlayOneShot(clip, volume);
     }
 
+    public void PlayRandomSound(List<AudioClip> clips, float volume = 1f)
+    {
+        if (sfxSource == null)
+        {
+            sfxSource = _sfxGameObject.GetComponent<AudioSource>();
+        }
+
+        if (clips == null)
+        {
+            Debug.LogError("AudioClips is null!");
+            return;
+        }
+
+        int randIndex = Random.Range(0, clips.Count);
+        
+        sfxSource.PlayOneShot(clips[randIndex]);
+    }
+
     public void ChangeMusicVolume(float value)
     {
         musicSource.volume = value;

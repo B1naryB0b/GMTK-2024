@@ -9,6 +9,7 @@ public class DropletCollector : MonoBehaviour
     private ParticleSystem _particleSystem; 
 
     [SerializeField] private float pullStrength;
+    [SerializeField] private AudioClip collectDropletSfx;
 
     private FluidManager _fluidManager;
     private DropletManager _dropletManager;
@@ -70,6 +71,8 @@ public class DropletCollector : MonoBehaviour
             Rigidbody2D rb = droplet.gameObject.GetComponent<Rigidbody2D>();
             _rigidbody2Ds.Remove(rb);
             Destroy(other.gameObject);
+            
+            AudioController.Instance.PlaySound(collectDropletSfx, 0.5f);
         }
     }
 }
