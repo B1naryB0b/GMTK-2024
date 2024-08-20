@@ -27,11 +27,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
         Force
     }
 
+    [SerializeField] private AudioClip jumpSfx;
+    [SerializeField] private AudioClip dashSfx;
+
     [SerializeField] private PlayerMoveMode moveMode;
     
     [SerializeField] private ScriptableStats _stats;
 
-    public DropletManager _dropletManager;
+    [HideInInspector] public DropletManager dropletManager;
     private InputHandler _inputHandler;
     private Rigidbody2D _rigidBod;
     private CircleCollider2D _circleCol;
@@ -84,7 +87,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     // Start is called before the first frame update
     void Awake()
     {
-        _dropletManager = GetComponent<DropletManager>();
+        dropletManager = GetComponent<DropletManager>();
         _inputHandler = GetComponent<InputHandler>();
         _rigidBod = GetComponent<Rigidbody2D>();
         _circleCol = GetComponent<CircleCollider2D>();
@@ -225,7 +228,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
                 _frameVelocity = new Vector2(_dashDirection.x * dashScaling.x * _stats.DashSpeed, _dashDirection.y * dashScaling.y * _stats.DashSpeed);
                 _dashTrail.emitting = true;
                 _dashCooldownTime = _time + _stats.DashCooldown;
-                _dropletManager.SubtractMass(-dashDirection);
+                dropletManager.SubtractMass(-dashDirection);
+                AudioController.Instance.PlaySound(dashSfx);
             }
         }
 
@@ -319,6 +323,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _coyoteUsable = false;
         _frameVelocity.y = _stats.JumpPower;
         Jumped?.Invoke();
+        AudioController.Instance.PlaySound(jumpSfx);
     }
 
     //RunningDirection
@@ -351,9 +356,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _wallHit = false;
         _bufferedWallJumpUsable = false;
         Jumped?.Invoke();
+        AudioController.Instance.PlaySound(jumpSfx);
     }
-
-    
 
     //Gravity
     private void HandleGravity()
@@ -372,7 +376,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void AdjustVelocityForMass()
     {
-        float mass = _dropletManager.GetMass();
+        float mass = dropletManager.GetMass();
         _largeEnoughToDash = mass > 0f;
         
         _velocityScaling = -Mathf.Pow((mass - 1f) / 1.75f, 3f) + ((1 - mass) / 100f) + 1f;

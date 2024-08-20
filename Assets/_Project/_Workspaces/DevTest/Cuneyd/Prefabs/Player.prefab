@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: f2451ad2500bc784e821bd1501738568, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -155,7 +155,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 3626370037901426538}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 63b510eb58cb1e747868662d187cddf9, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -386,8 +386,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc63c396da5cba46a2c6b87f284b223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpSfx: {fileID: 8300000, guid: 9f76ea3e91ad984458955fdd736d3dcd, type: 3}
+  dashSfx: {fileID: 8300000, guid: 390ae31095f8d2a4aa8dc38d88b9d2b2, type: 3}
   moveMode: 0
   _stats: {fileID: 11400000, guid: cf0d9f04f15755043b353b3befcb5e36, type: 2}
+  dropletManager: {fileID: 0}
 --- !u!114 &8560772398776326142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pullStrength: 10000
+  collectDropletSfx: {fileID: 8300000, guid: 87a854bee6774b8489c5e02760e1d1ac, type: 3}
 --- !u!114 &3866908454794730965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropletPrefab: {fileID: 6435530430347257885, guid: 7c69321f74316ca439198c9d4d0d18e4, type: 3}
   ejectionForce: 0.01
-  mass: 1
+  mass: 0.5
 --- !u!1 &4608735049439133340
 GameObject:
   m_ObjectHideFlags: 0
@@ -5225,7 +5229,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 8
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5330,7 +5334,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 70c6c637bdb0c6a4aa437ea1efa6b6ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

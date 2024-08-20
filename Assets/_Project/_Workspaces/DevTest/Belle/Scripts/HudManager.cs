@@ -45,7 +45,7 @@ public class HudManager : MonoBehaviour
         _beatLevel = true;
 
         // Calculate and set player score
-        float mass = _player._dropletManager.GetMass();
+        float mass = _player.dropletManager.GetMass();
         float score = 10.0f * _currTime / (1.0f + mass / 5.0f);
         _boardText.text = "Congratulations!\n\n";
         _boardText.text += "Time: " + _timer.text + "\n";
