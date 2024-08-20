@@ -18,17 +18,24 @@ public class DialougeManager : MonoBehaviour
     [SerializeField] private Sprite _rakeyDiaSprite;
     [SerializeField] private Sprite _clipyDiaSprite;
     [SerializeField] private Sprite _sprinkleyDiaSprite;
+    [SerializeField] private AudioClip _rakeyClip;
+    [SerializeField] private AudioClip _clipyClip;
+    [SerializeField] private AudioClip _sprinkleyCLip;
     private string[] _currDialouge;
     private string _currName = "";
     [SerializeField] private Image _currSprite;
+    private AudioClip _currClip;
     private LevelTracker _levelTrack;
     
     // Start is called before the first frame update
     void Start()
     {
         _levelTrack = FindObjectOfType<LevelTracker>();
-        LevelIndex = _levelTrack.LevelIndex;
-        LevelIndex -= 1;
+        if (_levelTrack != null)
+        {
+            LevelIndex = _levelTrack.LevelIndex;
+            LevelIndex -= 1;
+        }
         DestroyCurrBox();
         ReadTextFiles();
     }
@@ -40,16 +47,19 @@ public class DialougeManager : MonoBehaviour
                 _currName = name;
                 _currSprite.sprite = _rakeyDiaSprite;
                 _currDialouge = _rakeyDialouge[LevelIndex];
+                _currClip = _rakeyClip;
                 break;
             case "Clipy":
                 _currName = name;
                 _currSprite.sprite = _clipyDiaSprite;
                 _currDialouge = _clipyDialouge[LevelIndex];
+                _currClip = _clipyClip;
                 break;
             case "Sprinkley":
                 _currName = name;
                 _currSprite.sprite = _sprinkleyDiaSprite;
                 _currDialouge = _sprinkleyDialouge[LevelIndex];
+                _currClip = _sprinkleyCLip;
                 break;
         }
     }
@@ -66,6 +76,11 @@ public class DialougeManager : MonoBehaviour
     public Image GetCurrSprite()
     {
         return _currSprite;
+    }
+
+    public AudioClip GetCurrAudio()
+    {
+        return _currClip;
     }
 
     public void SpawnNewBox(string name)

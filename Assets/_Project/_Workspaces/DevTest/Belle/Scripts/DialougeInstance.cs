@@ -15,6 +15,7 @@ public class DialougeInstance : MonoBehaviour
     [SerializeField] private float _dialougeSpeed;
     public Animator DialougeAnimator;
     [SerializeField] private DialougeManager _diaManager;
+    [SerializeField] private AudioSource _audioSource;
     private bool firstEnable = true;
     private InputHandler _inputHandler;
     private bool _finishedWrighting;
@@ -38,6 +39,8 @@ public class DialougeInstance : MonoBehaviour
             _charName = _diaManager.GetCurrName();
             _sentances = _diaManager.GetCurrDialouge();
             CharImage = _diaManager.GetCurrSprite();
+            _audioSource.clip = _diaManager.GetCurrAudio();
+            _audioSource.loop = false;
             DialougeName.text = _charName;
             //play animation
             DialougeAnimator.SetTrigger("Enter");
@@ -73,6 +76,7 @@ public class DialougeInstance : MonoBehaviour
 
     IEnumerator WriteDialouge()
     {
+        _audioSource.Play();
         foreach(char character in _sentances[_index].ToCharArray())
         {
             DialougeText.text += character;
