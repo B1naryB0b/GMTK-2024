@@ -10,7 +10,7 @@ public class LevelEntrance : MonoBehaviour
     private void Start()
     {
         _levelTracker = FindAnyObjectByType<LevelTracker>();
-        if (_levelTracker.LevelIndex >= 2)
+        if (_levelTracker.LevelIndex >= 3)
         {
             gameObject.SetActive(false);
         }

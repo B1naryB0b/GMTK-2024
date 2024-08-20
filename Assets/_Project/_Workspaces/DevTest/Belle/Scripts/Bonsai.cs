@@ -12,7 +12,7 @@ public class Bonsai : MonoBehaviour
     void Start()
     {
         _levelTracker = FindObjectOfType<LevelTracker>();
-        _bonsaiRender.sprite = _bonsaiSprites[_levelTracker.LevelIndex];
-        transform.position = new Vector3(transform.position.x, _yCords[_levelTracker.LevelIndex], transform.position.z);
+        _bonsaiRender.sprite = _bonsaiSprites[_levelTracker.LevelIndex - 1];
+        transform.position = new Vector3(transform.position.x, _yCords[_levelTracker.LevelIndex - 1], transform.position.z);
     }
 }
