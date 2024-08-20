@@ -30,7 +30,7 @@ public class Follow : MonoBehaviour
     [SerializeField] private AnimationCurve lerpRotationCurve = AnimationCurve.Constant(0f, 1f, 1f);
     [SerializeField] private float smoothFollowRotationSpeed = 1f;
     
-    void Update()
+    void LateUpdate()
     {
         switch (followType)
         {
