@@ -27,8 +27,11 @@ public class DialougeManager : MonoBehaviour
     void Start()
     {
         _levelTrack = FindObjectOfType<LevelTracker>();
-        LevelIndex = _levelTrack.LevelIndex;
-        LevelIndex -= 1;
+        if (_levelTrack != null)
+        {
+            LevelIndex = _levelTrack.LevelIndex;
+            LevelIndex -= 1;
+        }
         DestroyCurrBox();
         ReadTextFiles();
     }

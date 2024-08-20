@@ -286,9 +286,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialougeBox: {fileID: 1996694072}
-  RakeyText: {fileID: 4900000, guid: 94d10fff9615d1b499b02198de564b51, type: 3}
-  ClipyText: {fileID: 4900000, guid: 94d10fff9615d1b499b02198de564b51, type: 3}
-  SprinkleyText: {fileID: 4900000, guid: 94d10fff9615d1b499b02198de564b51, type: 3}
+  RakeyText: {fileID: 4900000, guid: c34ccc71707c924479905add3699dce5, type: 3}
+  ClipyText: {fileID: 4900000, guid: 19e345077a073e84d9ce09b749368890, type: 3}
+  SprinkleyText: {fileID: 4900000, guid: fa26df55c7121674a97533f0881df330, type: 3}
   _rakeyDiaSprite: {fileID: 21300000, guid: cd777afe18b925a41a0cd2b33fd10c50, type: 3}
   _clipyDiaSprite: {fileID: 21300000, guid: a07ed45b308ffc6449a1742a4b099bbb, type: 3}
   _sprinkleyDiaSprite: {fileID: 21300000, guid: bfbc8144888c11c4e869c5f83a1eaafc, type: 3}

@@ -10,9 +10,12 @@ public class LevelEntrance : MonoBehaviour
     private void Start()
     {
         _levelTracker = FindAnyObjectByType<LevelTracker>();
-        if (_levelTracker.LevelIndex >= 3)
+        if (_levelTracker != null)
         {
-            gameObject.SetActive(false);
+            if (_levelTracker.LevelIndex >= 3)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
     // Update is called once per frame
