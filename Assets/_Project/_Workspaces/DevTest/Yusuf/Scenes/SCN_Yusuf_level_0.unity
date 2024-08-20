@@ -5209,6 +5209,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Text (TMP)
       objectReference: {fileID: 0}
+    - target: {fileID: 672198014469704000, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+      propertyPath: m_margin.x
+      value: -112.09068
+      objectReference: {fileID: 0}
+    - target: {fileID: 672198014469704000, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
+      propertyPath: m_margin.z
+      value: -110.07096
+      objectReference: {fileID: 0}
     - target: {fileID: 1528737383481826188, guid: eafa45ff1be9718438b04552d2f9fc97, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.0000019073
