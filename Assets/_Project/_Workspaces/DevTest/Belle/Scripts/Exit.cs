@@ -5,6 +5,7 @@ using UnityEngine;
 public class Exit : MonoBehaviour
 {
     [SerializeField] private LevelManager _levelMan;
+    [SerializeField] private AudioClip clip;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -12,6 +13,7 @@ public class Exit : MonoBehaviour
         {
             if (_levelMan.HasCollectedObjective)
             {
+                AudioController.Instance.FadeInAndOut(clip);
                 _levelMan.EndLevel();
             }
         }

@@ -135,3 +135,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelMan: {fileID: 0}
   _rotationSpeed: 50
+  clip: {fileID: 8300000, guid: b152f659be9d57b4a9e77c9c164a4cc7, type: 3}

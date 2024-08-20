@@ -7,11 +7,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Animator CreditButton;
     [SerializeField] private Animator PlayButton;
     [SerializeField] private Animator Title;
-    [SerializeField] private AudioClip clip;
     [SerializeField] private Animator Scroll;
     public void PlayGame()
     {
-        AudioController.Instance.FadeInAndOut(clip);
         SceneManager.LoadSceneAsync(1);
     }
 
