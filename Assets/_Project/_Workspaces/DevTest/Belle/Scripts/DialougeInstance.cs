@@ -19,6 +19,7 @@ public class DialougeInstance : MonoBehaviour
     private bool firstEnable = true;
     private InputHandler _inputHandler;
     private bool _finishedWrighting;
+    private bool _firstSentance = true;
 
     // Start is called before the first frame update
     void Start()
@@ -61,14 +62,22 @@ public class DialougeInstance : MonoBehaviour
     {
         if(_index <= _sentances.Length -1)
         {
-            DialougeText.text = "";
-            StartCoroutine(WriteDialouge());
+            if (_firstSentance == true)
+            {
+                _firstSentance = false;
+                Invoke("WriteDelay", 1);
+            }
+            else
+            {
+                WriteDelay();
+            }
         }
         else
         {
             DialougeText.text = "";
             DialougeAnimator.SetTrigger("Exit");
             _index = 0;
+            _firstSentance = true;
             //get dialouge manager to destroy prefab this is attatched to. event thats called.
             _diaManager.DestroyCurrBox();
         }
@@ -84,5 +93,11 @@ public class DialougeInstance : MonoBehaviour
         }
         _finishedWrighting = true;
         _index++;
+    }
+
+    private void WriteDelay()
+    {
+        DialougeText.text = "";
+        StartCoroutine(WriteDialouge());
     }
 }

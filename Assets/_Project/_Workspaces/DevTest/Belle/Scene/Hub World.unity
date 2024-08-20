@@ -2232,9 +2232,21 @@ PrefabInstance:
       propertyPath: _audioSource
       value: 
       objectReference: {fileID: 873461549}
+    - target: {fileID: 4635621680860404065, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: _dialougeSpeed
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5087150081211702229, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5516267569947494235, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837820073735233396, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7573782147543584085, guid: 44d341f47dd171a4aac65e68897afbda, type: 3}
       propertyPath: m_Name

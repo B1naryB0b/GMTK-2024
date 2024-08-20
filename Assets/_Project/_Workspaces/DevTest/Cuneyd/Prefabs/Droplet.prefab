@@ -161,6 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c68764c1b24fe468633e76d8097fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0.1
+  mass: 0.025
   isBeingEjected: 1
   ejectionDuration: 0.5
