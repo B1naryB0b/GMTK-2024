@@ -4,14 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private AudioManager _audioMan;
-    // Start is called before the first frame update
-    public void Start()
-    {
-        _audioMan.PlaySound();
-    }
+    [SerializeField] private AudioClip clip;
     public void PlayGame()
     {
+        AudioController.Instance.FadeInAndOut(clip);
         SceneManager.LoadSceneAsync(1);
     }
 }
