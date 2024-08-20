@@ -232,7 +232,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 63b510eb58cb1e747868662d187cddf9, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc63c396da5cba46a2c6b87f284b223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSfx: {fileID: 8300000, guid: 9f76ea3e91ad984458955fdd736d3dcd, type: 3}
+  jumpSfx: {fileID: 8300000, guid: 126f83817f3780044876e7f597aded8f, type: 3}
   dashSfx: {fileID: 8300000, guid: 390ae31095f8d2a4aa8dc38d88b9d2b2, type: 3}
   moveMode: 0
   _stats: {fileID: 11400000, guid: cf0d9f04f15755043b353b3befcb5e36, type: 2}
