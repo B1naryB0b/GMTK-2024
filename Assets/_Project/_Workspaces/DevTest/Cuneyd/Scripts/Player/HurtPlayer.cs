@@ -7,6 +7,7 @@ public class HurtPlayer : MonoBehaviour
     private bool _isTakingDamage = false;
     [SerializeField] private float damageCooldown = 0.5f; // Cooldown duration in seconds
     [SerializeField] private int dropletsReleased = 2;
+    [SerializeField] private AudioClip dmgSfx;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class HurtPlayer : MonoBehaviour
                 Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
                 if (dropletManager.GetMass() > 0f)
                 {
+                    AudioController.Instance.PlaySound(dmgSfx);
                     dropletManager.SubtractMass(randomDirection);
                 }
             }

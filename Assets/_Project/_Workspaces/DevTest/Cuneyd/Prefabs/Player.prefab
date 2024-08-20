@@ -389,7 +389,7 @@ MonoBehaviour:
   jumpSfx: {fileID: 8300000, guid: 126f83817f3780044876e7f597aded8f, type: 3}
   dashSfx: {fileID: 8300000, guid: 390ae31095f8d2a4aa8dc38d88b9d2b2, type: 3}
   moveMode: 0
-  _stats: {fileID: 11400000, guid: cf0d9f04f15755043b353b3befcb5e36, type: 2}
+  _stats: {fileID: 11400000, guid: fa42a7a8e0b70ab4d95cd75950ae3eaf, type: 2}
   dropletManager: {fileID: 0}
 --- !u!114 &8560772398776326142
 MonoBehaviour:
